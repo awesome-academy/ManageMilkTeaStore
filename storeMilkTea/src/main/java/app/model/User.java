@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private String phone;
 
 	@NonNull
-	private Boolean gender;
+	private String gender;
 
 	@NonNull
 	@ManyToOne

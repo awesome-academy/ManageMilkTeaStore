@@ -26,7 +26,7 @@ public class UserInfo implements Serializable {
     private String password;
     private String fullName;
     private String phone;
-    private boolean gender;
+    private String gender;
     private RoleInfo role;
 
 }

@@ -40,4 +40,5 @@ public class Discount implements Serializable {
 	@Fetch(FetchMode.SELECT)
 	@OrderColumn
 	private List<Product> products;
+
 }

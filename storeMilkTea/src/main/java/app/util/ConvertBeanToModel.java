@@ -21,7 +21,7 @@ public class ConvertBeanToModel {
                 u.getPassword(),
                 u.getFullName(),
                 u.getPhone(),
-                u.isGender(),
+                u.getGender(),
                 mapRoleInfoToRole(u.getRole()));
 
         return map.apply(userInfo);

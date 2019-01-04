@@ -21,7 +21,7 @@ public class ConvertPasswordUtils {
         newUser.setPassword(encoder.encode(userInfo.getPassword()));
         newUser.setFullName(userInfo.getFullName());
         newUser.setPhone(userInfo.getPhone());
-        newUser.setGender(userInfo.isGender());
+        newUser.setGender(userInfo.getGender());
         newUser.setRole(roleService.findByName("ROLE_USER"));
 
         return newUser;
