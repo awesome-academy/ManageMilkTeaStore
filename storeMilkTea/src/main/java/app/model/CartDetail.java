@@ -23,7 +23,8 @@ public class CartDetail implements Serializable {
     private Integer quantity;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private Date createdAt;
+
 
     @ManyToOne
     @JoinColumn(name = "productID")

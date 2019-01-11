@@ -13,7 +13,7 @@ public class ErrorController {
 
     @RequestMapping(value = "errors", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest request) {
-        String url = request.getRequestURL().toString().contains("admin") == true ? "/admin" : "/";
+        String url = request.getRequestURL().toString().contains("admin") ? "/admin" : "/";
         switch (RequestUtils.getErrorCode(request)) {
             case 404:
                 return new ModelAndView("/error/pages/404").addObject("homePage",url);

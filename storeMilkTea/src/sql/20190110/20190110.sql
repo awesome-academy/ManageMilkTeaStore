@@ -30,7 +30,7 @@ CREATE TABLE `cartDetails`
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `quantity`  INT(11) UNSIGNED NOT NULL DEFAULT '1',
   `productID` INT(11) UNSIGNED NOT NULL,
-  `dateCreated`       DATETIME          NOT NULL DEFAULT NOW(),
+  `createdAt`       DATETIME          NOT NULL DEFAULT NOW(),
   `cartID`    INT(11) UNSIGNED NOT NULL,
   `sizeID`    INT(11) UNSIGNED NOT NULL,
 
