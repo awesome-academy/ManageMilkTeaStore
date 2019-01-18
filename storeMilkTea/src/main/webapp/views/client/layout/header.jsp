@@ -20,11 +20,8 @@
 							<nav>
 								<ul>
 									<li><a href="http://bit.do/bromq">home</a>
-										<ul>
-											<li><a href="index.html">home page</a></li>
-										</ul></li>
+										</li>
 									<li><a href="about.html">about</a></li>
-									<li><a href="blog.html">blog</a></li>
 									<spring:url value="/shop" var="urlShop"></spring:url>
 									<li class="static"><a href="${urlShop }">shop</a>
 										<div class="mega-menu">
@@ -81,29 +78,6 @@
 													src="/client/assets/img/banner/banner-tratraicaytuoi.png"></a>
 											</span>
 										</div></li>
-									<li><a href="#">pages</a>
-										<ul>
-											<li><a href="about.html">about</a></li>
-											<li><a href="blog.html">blog</a></li>
-											<li><a href="blog-2-column.html">blog 2 column</a></li>
-											<li><a href="blog-full-width.html">blog full width</a></li>
-											<li><a href="blog-right-sidebar.html">blog right
-													sidebar</a></li>
-											<li><a href="single-blog.html">single blog</a></li>
-											<li><a href="single-blog-video.html">single blog
-													video</a></li>
-											<li><a href="cart.html">shopping cart</a></li>
-											<li><a href="checkout.html">checkout</a></li>
-											<li><a href="wishlist.html">wishlist</a></li>
-											<li><a href="contact.html">contact</a></li>
-											<li><a href="login.html">login</a></li>
-											<li><a href="shop.html">shop</a></li>
-											<li><a href="product-details.html">product details</a></li>
-											<li><a href="shop-full-width.html">shop full width</a></li>
-											<li><a href="shop-right-sidebar.html">shop right
-													sidebar</a></li>
-											<li><a href="404.html">404 error</a></li>
-										</ul></li>
 									<li><a href="contact.html">contact</a></li>
 								</ul>
 							</nav>
@@ -167,7 +141,7 @@
 							<i class="fa fa-search"></i>
 							<div class="header-form">
 								<form action="#">
-									<input type="text" placeholder="search" />
+									<input id="search-query" type="text" placeholder="search" />
 									<button>
 										<i class="fa fa-search"></i>
 									</button>
@@ -193,7 +167,6 @@
 										<li><a href="index.html">Homepage Page</a></li>
 									</ul></li>
 								<li><a href="about.html">About</a></li>
-								<li><a href="blog.html">blog</a></li>
 								<spring:url value="/shop" var="shopUrl"></spring:url>
 								<li><a href="${shopUrl }">Shop</a>
 									<ul>

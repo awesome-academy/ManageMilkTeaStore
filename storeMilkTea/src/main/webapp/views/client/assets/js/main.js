@@ -230,7 +230,7 @@
         e.preventDefault();
     });
 
-    $.fn.popupConfirm = function(){
+    $.fn.popupConfirm = function () {
         $('.popup-wrap').fadeIn(500);
         $('.popup-box').removeClass('transform-out').addClass('transform-in');
 
@@ -241,20 +241,20 @@
         $('.popup-box').removeClass('transform-out').addClass('transform-in');
         let statusMessages = $('#token-status').val();
         $('#token-title').text(statusMessages);
-        if (statusMessages == "Expired"){
+        if (statusMessages == "Expired") {
             $('#bt-create-token').show();
             $('#bt-success').hide();
         }
     });
 
-    $('.popup-btn').click(function(e) {
+    $('.popup-btn').click(function (e) {
         $('.popup-wrap').fadeIn(500);
         $('.popup-box').removeClass('transform-out').addClass('transform-in');
 
         e.preventDefault();
     });
 
-    $('.popup-close').click(function(e) {
+    $('.popup-close').click(function (e) {
         $('.popup-wrap').fadeOut(500);
         $('.popup-box').removeClass('transform-in').addClass('transform-out');
 
@@ -262,7 +262,7 @@
     });
 
 
-    $.fn.errorRegisterNotification = function() {
+    $.fn.errorRegisterNotification = function () {
 
         $.notify({
             icon: "tim-icons icon-bell-55",
@@ -277,7 +277,51 @@
             }
         });
     }
-     // ['primary', 'info', 'success', 'warning', 'danger'];
+    // ['primary', 'info', 'success', 'warning', 'danger'];
+
+
+    let $_searchQuery = $('#search-query');
+
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        let re = new RegExp($.trim(this.term.toLowerCase()));
+        let t = item.label.replace(re, "<span style='font-weight:600;color:#5C5C5C;'>" + $.trim(this.term.toLowerCase()) +
+            "</span>");
+        return $("<li></li>")
+            .data("item.autocomplete", item)
+            .append("<div class=\"cart-img\">" +
+                "<a href=\"#\"><img alt=\"\" src=\"/client/assets/img/cart/1.png\"></a>" +
+                "</div>" +
+                "<div class=\"cart-info\">" +
+                "<h4>" +
+                "<a href=\"#\">" + t + "</a>" +
+                "</h4>" +
+                "</div>")
+            .appendTo(ul);
+    };
+
+    $.ajax({
+        url: "/products",
+        success: function (data) {
+            $_searchQuery.autocomplete({
+                source: $.fn.convertObjectToString(data)
+            });
+        },
+        error: function (e) {
+        }
+    });
+
+    $.fn.convertObjectToString = function (objects){
+        let data = [];
+         objects.forEach(function (element) {
+             data.push(element.name)
+         })
+        return data;
+    }
+
+
 })(jQuery);
+
+
 
 
