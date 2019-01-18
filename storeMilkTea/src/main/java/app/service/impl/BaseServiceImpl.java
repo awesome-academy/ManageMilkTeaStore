@@ -1,13 +1,9 @@
 package app.service.impl;
 
-import app.dao.CartDetailDAO;
-import app.dao.CategoryDAO;
-import app.dao.ProductDAO;
-import app.dao.RoleDAO;
-import app.dao.UserDAO;
-import app.dao.VerificationTokenDAO;
+import app.dao.*;
 import app.util.ConvertNewUserUtils;
 import lombok.Setter;
+
 
 @Setter
 public class BaseServiceImpl {

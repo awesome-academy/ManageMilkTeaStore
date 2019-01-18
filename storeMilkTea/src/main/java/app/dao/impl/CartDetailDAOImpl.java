@@ -11,7 +11,7 @@ public class CartDetailDAOImpl extends GenericDAO<Integer, CartDetail> implement
     @Override
     public List<CartDetail> findCartDetailsExpired(Date date) {
         return getSession()
-                .createQuery("FROM CartDetail c WHERE c.dateCreated <= :date ",CartDetail.class)
+                .createQuery("FROM CartDetail c WHERE c.createdAt <= :date ",CartDetail.class)
                 .setParameter("date", date)
                 .getResultList();
     }
