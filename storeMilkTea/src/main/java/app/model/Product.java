@@ -29,7 +29,7 @@ public class Product implements Serializable {
 
     private Integer status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryID")
     private Category category;
 

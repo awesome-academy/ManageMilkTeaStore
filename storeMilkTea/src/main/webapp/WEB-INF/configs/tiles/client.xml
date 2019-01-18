@@ -26,7 +26,7 @@
 			<!-- animate css -->
 			<add-attribute value="/client/assets/css/animate.css" />
 			<!-- jquery-ui.min css -->
-			<add-attribute value="/client/assets/css/jquery-ui.min.css" />
+			<add-attribute value="/client/assets/css/jquery-ui.css" />
 			<!-- meanmenu css -->
 			<add-attribute value="/client/assets/css/meanmenu.min.css" />
 			<!-- owl.carousel css -->
@@ -41,7 +41,7 @@
 		<put-list-attribute name="javascripts">
 			<!-- all js here -->
 			<!-- jquery latest version -->
-			<add-attribute value="/client/assets/js/vendor/jquery-1.12.0.min.js"/>
+			<add-attribute value="/client/assets/js/vendor/jquery-1.12.4.min.js"/>
 			<!-- bootstrap js -->
 			<add-attribute value="/client/assets/js/bootstrap.min.js"/>
 			<add-attribute value="/client/assets/js/bootstrap-notify.js"/>
@@ -50,7 +50,7 @@
 			<!-- meanmenu js -->
 			<add-attribute value="/client/assets/js/jquery.meanmenu.js" />
 			<!-- jquery-ui js -->
-			<add-attribute value="/client/assets/js/jquery-ui.min.js" />
+			<add-attribute value="/client/assets/js/jquery-ui.js" />
 			<!-- nivo.slider js -->
 			<add-attribute value="/client/assets/lib/js/jquery.nivo.slider.pack.js" />
 			<add-attribute value="/client/assets/lib/js/nivo-active.js" />
@@ -103,12 +103,10 @@
 		<put-list-attribute name="javascripts">
 			<!-- all js here -->
 			<!-- jquery latest version -->
-			<add-attribute value="/client/assets/js/vendor/jquery-1.12.0.min.js"/>
+			<add-attribute value="/client/assets/js/vendor/jquery-1.12.4.min.js"/>
 			<!-- bootstrap js -->
 			<add-attribute value="/client/assets/js/bootstrap.min.js"/>
 			<add-attribute value="/client/assets/js/bootstrap-notify.js"/>
-			<!-- jquery-ui js -->
-			<add-attribute value="/client/assets/js/jquery-ui.min.js"/>
 			<!-- main js -->
 			<add-attribute value="/client/assets/js/main.js"/>
 		</put-list-attribute>
