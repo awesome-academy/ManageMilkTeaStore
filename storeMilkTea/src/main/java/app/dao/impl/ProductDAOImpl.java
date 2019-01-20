@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.GenericDAO;
 import app.dao.ProductDAO;
+import app.model.Category;
 import app.model.Product;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -22,6 +23,15 @@ public class ProductDAOImpl extends GenericDAO<Integer, Product> implements Prod
     }
 
     @Override
+    public List<Product> getRelateProducts(Category category, int maxResult) {
+        return getSession()
+                .createQuery("FROM Product p WHERE p.category = :category", Product.class)
+                .setParameter("category", category)
+                .setMaxResults(maxResult)
+                .getResultList();
+    }
+
+    @Override
     public void resetIndexs() {
         FullTextSession fullTextSession = Search.getFullTextSession(getSession());
         fullTextSession.createIndexer(Product.class).start();
@@ -34,7 +44,7 @@ public class ProductDAOImpl extends GenericDAO<Integer, Product> implements Prod
         fullTextSession.createIndexer().startAndWait();
         SearchFactory searchFactory = fullTextSession.getSearchFactory();
         QueryBuilder queryBuilder = searchFactory.buildQueryBuilder().forEntity(Product.class).get();
-        Query luceneQuery = queryBuilder.keyword().wildcard().onField("name").matching("*" +content + "*").createQuery();
+        Query luceneQuery = queryBuilder.keyword().wildcard().onField("name").matching("*" + content + "*").createQuery();
 
         FullTextQuery query = fullTextSession.createFullTextQuery(luceneQuery, Product.class);
 

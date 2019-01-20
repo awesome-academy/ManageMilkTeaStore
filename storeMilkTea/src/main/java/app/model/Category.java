@@ -2,6 +2,8 @@ package app.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,15 +13,17 @@ import java.util.List;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
-
+@RequiredArgsConstructor
 
 public class Category implements Serializable {
 
 
+    @NonNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NonNull
     private String name;
 
     @ManyToOne
@@ -28,8 +32,8 @@ public class Category implements Serializable {
 
     @OneToMany(mappedBy = "parent")
     private List<Category> categories;
-    
-    @OneToMany(mappedBy="category")
+
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
 }

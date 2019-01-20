@@ -1,10 +1,6 @@
 package app.controller;
 
-import app.service.CategoryService;
-import app.service.JWTService;
-import app.service.ProductService;
-import app.service.UserService;
-import app.service.VerificationTokenService;
+import app.service.*;
 import app.util.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -24,6 +20,7 @@ public class BaseController {
     protected ProductService productService;
     @Autowired 
     protected CategoryService categoryService;
-
+    @Autowired
+    protected SizeService sizeService;
 
 }

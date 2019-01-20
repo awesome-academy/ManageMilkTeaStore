@@ -2308,6 +2308,7 @@ ul.pro-details-tab li a {
     font-weight: 400;
     margin-bottom: 22px;
     text-transform: uppercase;
+    display: block;
 }
 
 .product-comments {

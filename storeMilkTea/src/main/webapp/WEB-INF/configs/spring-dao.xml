@@ -40,4 +40,10 @@
 		</property>
 	</bean>
 
+	<bean id="sizeDAO" class="app.dao.impl.SizeDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+
 </beans>

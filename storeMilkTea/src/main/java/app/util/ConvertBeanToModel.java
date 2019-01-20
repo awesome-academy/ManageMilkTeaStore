@@ -1,7 +1,9 @@
 package app.util;
 
+import app.bean.CategoryInfo;
 import app.bean.RoleInfo;
 import app.bean.UserInfo;
+import app.model.Category;
 import app.model.Role;
 import app.model.User;
 
@@ -22,8 +24,14 @@ public class ConvertBeanToModel {
                 u.getEmail(),
                 u.getPassword(),
                 u.isEnable()
-                );
+        );
 
         return map.apply(userInfo);
     }
+
+    public static Category mapCategoryInfoToCategory(CategoryInfo categoryInfo) {
+        Function<CategoryInfo, Category> map = c -> new Category(c.getId(), c.getName());
+        return map.apply(categoryInfo);
+    }
+
 }
