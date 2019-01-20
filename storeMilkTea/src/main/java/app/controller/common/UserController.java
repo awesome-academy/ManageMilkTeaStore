@@ -79,4 +79,18 @@ public class UserController extends BaseController {
         return view;
     }
 
+
+    @PostMapping("/google/login")
+    public ResponseEntity<String> loginGoogle(@RequestBody UserInfo userInfo){
+        try {
+            if (userService.createNewUserAccountWithGoogle(userInfo) != null)
+                return new ResponseEntity<>(jwtService.generateTokenLogin(userInfo.getEmail()), HttpStatus.OK);
+
+            return new ResponseEntity<>("Can not login", HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            logger.error("Server error: " + ex.getMessage());
+            return new ResponseEntity<>("Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

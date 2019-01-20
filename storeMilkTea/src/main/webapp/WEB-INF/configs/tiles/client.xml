@@ -60,6 +60,8 @@
 			<add-attribute value="/client/assets/js/plugins.js" />
 			<!-- main js -->
 			<add-attribute value="/client/assets/js/main.js" />
+			<!-- google -->
+			<add-attribute value="/client/assets/js/google.js" />
 		</put-list-attribute>
 	</definition>
 

@@ -12,5 +12,7 @@ public interface UserService extends BaseService<Integer, UserInfo> {
     UserInfo createNewUserAccount(UserInfo userInfo);
 
     UserInfo getUserByToken(String verificationToken);
+
+    UserInfo createNewUserAccountWithGoogle(UserInfo userInfo);
     
 }

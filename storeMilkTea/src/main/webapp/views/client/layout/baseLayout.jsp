@@ -27,7 +27,6 @@
     <!-- end stylesheets -->
 
 
-
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -217,7 +216,7 @@
                             <div class="col-md-12">
                                 <div class="btn-group btn-group-justified">
                                     <a href="#" class="btn btn-primary">Facebook</a>
-                                    <a href="#" class="btn btn-danger">Google</a>
+                                    <a href="#" id="login-button" disabled class="btn btn-danger">Google</a>
                                 </div>
                             </div>
                         </div>
@@ -242,5 +241,7 @@
     <script src="<c:url value="${script}"/>"></script>
 </c:forEach>
 <%-- End scripts --%>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};HandleGoogleApiLibrary()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+
 </body>
 </html>
