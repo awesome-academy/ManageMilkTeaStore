@@ -25,10 +25,7 @@ public class UserController extends BaseController {
     public ResponseEntity<String> login(@RequestBody UserInfo userInfo) {
 
         try {
-            if (!userService.checkLogin(userInfo))
-                return new ResponseEntity<>("Wrong userId and password", HttpStatus.BAD_REQUEST);
-
-            return new ResponseEntity<>(jwtUtils.generateTokenLogin(userInfo.getEmail()), HttpStatus.OK);
+            return new ResponseEntity<>(jwtUtils.generateToken(userInfo.getEmail()), HttpStatus.OK);
 
         } catch (Exception ex) {
             logger.error("Server error: " + ex.getMessage());

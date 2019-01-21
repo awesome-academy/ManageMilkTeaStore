@@ -1,16 +1,18 @@
 package app.util;
 
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSSigner;
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Clock;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class JWTUtils {
     @Value("${spring.jwt.username}")
@@ -19,74 +21,85 @@ public class JWTUtils {
     private int expireTime;
     @Value("${spring.jwt.secret.key}")
     private String secretKey;
+    private Clock clock = DefaultClock.INSTANCE;
 
-    public String generateTokenLogin(String username) {
-        String token = null;
-        try {
-            JWSSigner signer = new MACSigner(generateShareSecret());
-            JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-            builder.claim(this.username, username);
-            builder.expirationTime(generateExpirationDate());
-            JWTClaimsSet claimsSet = builder.build();
-            SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
-
-            signedJWT.sign(signer);
-            token = signedJWT.serialize();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return token;
-    }
-
-    private JWTClaimsSet getClaimsFromToken(String token) {
-        JWTClaimsSet claims = null;
-        try {
-            SignedJWT signedJWT = SignedJWT.parse(token);
-            JWSVerifier verifier = new MACVerifier(generateShareSecret());
-            if (signedJWT.verify(verifier)) {
-                claims = signedJWT.getJWTClaimsSet();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return claims;
-    }
-
-    private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + this.expireTime);
-    }
-
-    private Date getExpirationDateFromToken(String token) {
-        Date expiration = null;
-        JWTClaimsSet claims = getClaimsFromToken(token);
-        expiration = claims.getExpirationTime();
-        return expiration;
-    }
 
     public String getUsernameFromToken(String token) {
-        String username = null;
-        try {
-            JWTClaimsSet claims = getClaimsFromToken(token);
-            username = claims.getStringClaim(this.username);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return username;
+        return getClaimFromToken(token, Claims::getSubject);
     }
 
-    private byte[] generateShareSecret() {
-        // Generate 256-bit (32-byte) shared secret
-        byte[] sharedSecret = new byte[32];
-        sharedSecret = secretKey.getBytes();
-        return sharedSecret;
+    public Date getIssuedAtDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getIssuedAt);
+    }
+
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
-        Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(clock.now());
     }
 
-    public Boolean validateTokenLogin(String token) {
+    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
+        return (lastPasswordReset != null && created.before(lastPasswordReset));
+    }
+
+    private Boolean ignoreTokenExpiration(String token) {
+        return false;
+    }
+
+    public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, username);
+    }
+
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+        final Date createdDate = clock.now();
+        final Date expirationDate = calculateExpirationDate(createdDate);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(createdDate)
+                .setExpiration(expirationDate)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+
+    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
+        final Date created = getIssuedAtDateFromToken(token);
+        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
+                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+    }
+
+    public String refreshToken(String token) {
+        final Date createdDate = clock.now();
+        final Date expirationDate = calculateExpirationDate(createdDate);
+
+        final Claims claims = getAllClaimsFromToken(token);
+        claims.setIssuedAt(createdDate);
+        claims.setExpiration(expirationDate);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+
+    public Boolean validateToken(String token) {
         if (token == null || token.trim().length() == 0) {
             return false;
         }
@@ -98,5 +111,9 @@ public class JWTUtils {
             return false;
         }
         return true;
+    }
+
+    private Date calculateExpirationDate(Date createdDate) {
+        return new Date(createdDate.getTime() + expireTime * 1000);
     }
 }

@@ -1,5 +1,6 @@
 package app.service.impl;
 
+import app.bean.CustomUserDetails;
 import app.bean.UserInfo;
 import app.model.User;
 import app.model.VerificationToken;
@@ -8,8 +9,15 @@ import app.util.ConvertBeanToModel;
 import app.util.ConvertModelToBean;
 import app.util.UserUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
@@ -103,4 +111,30 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
     }
 
+    private CustomUserDetails setUserDetail(User user) {
+        CustomUserDetails userDetail = new CustomUserDetails();
+        userDetail.setId(user.getId());
+        userDetail.setEmail(user.getEmail());
+        userDetail.setPassword(user.getPassword());
+        return userDetail;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            User user = userDAO.loadUserByEmail(username);
+            CustomUserDetails userDetail = setUserDetail(user);
+            userDetail.setUsername(username);
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+            userDetail.setAuthorities(authorities);
+
+            BeanUtils.copyProperties(user, userDetail);
+
+            return userDetail;
+        } catch (Exception e) {
+            logger.error(e);
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+        }
+    }
 }
