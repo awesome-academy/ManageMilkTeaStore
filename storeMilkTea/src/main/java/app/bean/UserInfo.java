@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(value = {"roles", "authorities"})
+@JsonIgnoreProperties(value = {"roleInfo", "authorities"})
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
@@ -19,5 +19,6 @@ public class UserInfo implements Serializable {
     private String email;
     private String password;
     private boolean enable;
+    private String roleInfo;
 
 }

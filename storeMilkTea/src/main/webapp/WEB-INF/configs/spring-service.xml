@@ -14,8 +14,6 @@
 		</property>
 	</bean>
 
-	<bean id="jwtService" class="app.service.impl.JWTServiceImpl" />
-
 	<bean id="loginService" class="app.service.impl.LoginServiceImpl" />
 
 	<bean id="roleService" parent="baseTransactionProxy">

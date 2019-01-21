@@ -12,22 +12,22 @@
     <beans:bean id="encoder"
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-
     <beans:bean id="servicesEntryPoint"
-                class="app.listener.AuthenticationEntryPoint" />
+                class="app.jwt.AuthenticationEntryPoint" />
+
     <beans:bean id="customAccessDeniedHandler"
-                class="app.event.CustomAccessDeniedHandler" />
+                class="app.jwt.CustomAccessDeniedHandler" />
 
     <beans:bean id="convertPasswordUtils" class="app.util.ConvertNewUserUtils"/>
 
-    <beans:bean id="jwtAuthenticationFilter" class="app.listener.JwtAuthenticationTokenFilter">
+    <beans:bean id="jwtAuthenticationFilter" class="app.jwt.JwtAuthenticationTokenFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
     </beans:bean>
+
     <http pattern="/users/login" security="none"/>
     <http pattern="/users/**" auto-config="false" use-expressions="true"
           create-session="stateless" entry-point-ref="servicesEntryPoint">
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-
         <custom-filter position="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
         <access-denied-handler ref="customAccessDeniedHandler"/>
         <csrf disabled="true" />

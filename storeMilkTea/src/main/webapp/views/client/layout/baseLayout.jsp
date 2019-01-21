@@ -241,6 +241,7 @@
 <c:forEach var="script" items="${javascripts}">
     <script src="<c:url value="${script}"/>"></script>
 </c:forEach>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};HandleGoogleApiLibrary()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 <%-- End scripts --%>
 </body>
 </html>

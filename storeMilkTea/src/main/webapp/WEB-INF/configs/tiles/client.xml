@@ -45,6 +45,8 @@
 			<!-- bootstrap js -->
 			<add-attribute value="/client/assets/js/bootstrap.min.js"/>
 			<add-attribute value="/client/assets/js/bootstrap-notify.js"/>
+            <!-- google JDK -->
+			<add-attribute value="/client/assets/js/bootstrap-notify.js"/>
 			<!-- owl.carousel js -->
 			<add-attribute value="/client/assets/js/owl.carousel.min.js" />
 			<!-- meanmenu js -->

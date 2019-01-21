@@ -12,7 +12,7 @@ public class UserDAOImpl extends GenericDAO<Integer, User> implements UserDAO {
 
     @Override
     public boolean checkLogin(User checkAccount) {
-        User user = getSession().createQuery("FROM User u", User.class).setMaxResults(1).uniqueResult();
+        User user = getSession().createQuery("FROM User u WHERE u.email =:email,", User.class).uniqueResult();
         return user == null ? false : true;
     }
 

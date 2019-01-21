@@ -1,6 +1,5 @@
-package app.service.impl;
+package app.util;
 
-import app.service.JWTService;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
@@ -13,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
-public class JWTServiceImpl implements JWTService {
+public class JWTUtils {
     @Value("${spring.jwt.username}")
     private String username;
     @Value("${spring.jwt.expire.time}")
@@ -21,18 +20,16 @@ public class JWTServiceImpl implements JWTService {
     @Value("${spring.jwt.secret.key}")
     private String secretKey;
 
-    @Override
     public String generateTokenLogin(String username) {
         String token = null;
         try {
-            // Create HMAC signer
             JWSSigner signer = new MACSigner(generateShareSecret());
             JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-            builder.claim(username, username);
+            builder.claim(this.username, username);
             builder.expirationTime(generateExpirationDate());
             JWTClaimsSet claimsSet = builder.build();
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
-            // Apply the HMAC protection
+
             signedJWT.sign(signer);
             token = signedJWT.serialize();
         } catch (Exception e) {
@@ -56,7 +53,7 @@ public class JWTServiceImpl implements JWTService {
     }
 
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expireTime);
+        return new Date(System.currentTimeMillis() + this.expireTime);
     }
 
     private Date getExpirationDateFromToken(String token) {
@@ -66,7 +63,6 @@ public class JWTServiceImpl implements JWTService {
         return expiration;
     }
 
-    @Override
     public String getUsernameFromToken(String token) {
         String username = null;
         try {
@@ -90,7 +86,6 @@ public class JWTServiceImpl implements JWTService {
         return expiration.before(new Date());
     }
 
-    @Override
     public Boolean validateTokenLogin(String token) {
         if (token == null || token.trim().length() == 0) {
             return false;

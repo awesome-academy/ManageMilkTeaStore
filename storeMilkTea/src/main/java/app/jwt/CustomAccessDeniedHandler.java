@@ -1,7 +1,5 @@
-package app.event;
+package app.jwt;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.servlet.ServletException;
@@ -13,9 +11,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, org.springframework.security.access.AccessDeniedException e) throws IOException, ServletException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        httpServletResponse.getWriter().write("Access Denied!");
     }
 }

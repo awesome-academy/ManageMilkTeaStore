@@ -1,7 +1,6 @@
-package app.listener;
+package app.jwt;
 
 import app.dao.UserDAO;
-import app.service.JWTService;
 import app.service.LoginService;
 import app.service.UserService;
 import org.apache.log4j.Logger;
