@@ -10,6 +10,7 @@ import app.util.UserUtils;
 import org.apache.log4j.Logger;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
@@ -80,6 +81,20 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         }
     }
 
+
+    public UserInfo createNewUserAccountWithGoogle(UserInfo userInfo) {
+            if (!emailExist(userInfo.getEmail()))
+                return ConvertModelToBean.mapUserToUserInfo(userDAO.loadUserByEmail(userInfo.getEmail()));
+
+            User user = convertNewUserUtils.convertNewUser(userInfo);
+            user.setEnable(true);
+            User result = userDAO.saveOrUpdate(user);
+            if (result == null)
+                return null;
+
+            return ConvertModelToBean.mapUserToUserInfo(result);
+    }
+
     @Override
     public UserInfo getUserByToken(String verificationToken) {
         try {
@@ -102,5 +117,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         }
 
     }
+
+
 
 }
