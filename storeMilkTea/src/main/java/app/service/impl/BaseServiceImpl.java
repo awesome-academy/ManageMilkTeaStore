@@ -14,5 +14,6 @@ public class BaseServiceImpl {
     protected ConvertNewUserUtils convertNewUserUtils;
     protected VerificationTokenDAO verificationTokenDAO;
     protected CartDetailDAO cartDetailDAO;
+    protected SizeDAO sizeDAO;
 
 }

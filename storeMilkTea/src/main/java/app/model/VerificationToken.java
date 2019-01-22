@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class VerificationToken implements Serializable {
 
-    @Value("${token.expiration}")
+    @Value("${spring.email.token.expiration}")
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     @Transient

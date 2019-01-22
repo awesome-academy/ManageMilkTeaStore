@@ -119,4 +119,10 @@
 		<put-attribute name="title" value="Shop"/>
 		<put-attribute name="body" value="/views/client/views/shop.jsp"/>
 	</definition>
+
+	<!-- Product Detail -->
+	<definition name="/productDetail" extends="baseLayout">
+		<put-attribute name="title" value="Shop"/>
+		<put-attribute name="body" value="/views/client/views/product-details.jsp"/>
+	</definition>
 </tiles-definitions>

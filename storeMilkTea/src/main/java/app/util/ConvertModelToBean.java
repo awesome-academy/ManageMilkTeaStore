@@ -4,14 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import app.bean.CategoryInfo;
-import app.bean.ProductInfo;
-import app.bean.RoleInfo;
-import app.bean.UserInfo;
-import app.model.Category;
-import app.model.Product;
-import app.model.Role;
-import app.model.User;
+import app.bean.*;
+import app.model.*;
 
 public class ConvertModelToBean {
 
@@ -43,7 +37,17 @@ public class ConvertModelToBean {
 	}
 
 	public static List<ProductInfo> mapProductsToProductInfo(List<Product> products) {
-		Function<Product, ProductInfo> mapProductToProductInfo = p -> new ProductInfo(p.getId(), p.getName(), p.getImage(), p.getPrice(),p.getStatus());
+		Function<Product, ProductInfo> mapProductToProductInfo = p -> new ProductInfo(p.getId(), p.getName(), p.getImage(), p.getPrice(),p.getStatus(), mapCategoryToCategoryInfo(p.getCategory()));
 		return products.stream().map(mapProductToProductInfo).collect(Collectors.toList());
+	}
+
+	public static ProductInfo mapProductToProductInfo(Product product){
+		Function<Product, ProductInfo> map = p -> new ProductInfo(p.getId(), p.getName(), p.getImage(), p.getPrice(), p.getStatus(), mapCategoryToCategoryInfo(p.getCategory()));
+		return map.apply(product);
+	}
+
+	public static List<SizeInfo> mapSizesToSizeInfos(List<Size> sizes){
+		Function<Size, SizeInfo> map = s -> new SizeInfo(s.getId(),s.getSize());
+		return sizes.stream().map(map).collect(Collectors.toList());
 	}
 }

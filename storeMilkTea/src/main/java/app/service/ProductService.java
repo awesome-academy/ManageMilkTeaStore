@@ -1,11 +1,14 @@
 package app.service;
 
-import java.util.List;
-
+import app.bean.CategoryInfo;
 import app.bean.ProductInfo;
 
-public interface ProductService extends BaseService<Integer, ProductInfo> {
-	List<ProductInfo> loadAllProduct();
-	List<ProductInfo> searchProducts(String name);
+import java.util.List;
 
+public interface ProductService extends BaseService<Integer, ProductInfo> {
+    List<ProductInfo> loadAllProduct();
+
+    List<ProductInfo> searchProducts(String name);
+
+    List<ProductInfo> getRelateProducts(CategoryInfo categoryInfo, int maxResult);
 }
