@@ -20,7 +20,9 @@
 
     <beans:bean id="convertPasswordUtils" class="app.util.ConvertNewUserUtils"/>
 
-    <beans:bean id="authenticationProvider" class="app.jwt.JwtAuthenticationProvider"/>
+    <beans:bean id="authenticationProvider" class="app.jwt.JwtAuthenticationProvider">
+        <beans:property name="userService" ref="userService"/>
+    </beans:bean>
 
     <beans:bean id="jwtAuthenticationFilter" class="app.jwt.JwtAuthenticationTokenFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
@@ -36,8 +38,7 @@
     </http>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider ref="authenticationProvider">
-        </authentication-provider>
+        <authentication-provider ref="authenticationProvider" />
     </authentication-manager>
 
 </beans:beans>

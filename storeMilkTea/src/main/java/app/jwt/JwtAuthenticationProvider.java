@@ -1,7 +1,7 @@
 package app.jwt;
 
 import app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,13 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 
-public class JwtAuthenticationProvider implements AuthenticationProvider{
-    @Autowired
-    private UserService  userService;
+@Setter
+public class JwtAuthenticationProvider implements AuthenticationProvider {
+    private UserService userService;
 
-    public JwtAuthenticationProvider() {
-        super();
-    }
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
@@ -26,7 +23,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider{
             UserDetails user = userService.loadUserByUsername(authentication.getName());
             UsernamePasswordAuthenticationToken result = null;
             if (user.getUsername().equals(authentication.getName()) && user.getPassword().equals(authentication.getCredentials().toString())) {
-                result = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<GrantedAuthority>());
+                result = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
             }
             return result;
         } catch (UsernameNotFoundException e) {
